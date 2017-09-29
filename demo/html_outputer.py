@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'RoLiHop'
 from datetime import datetime
+import time
 
 class HtmlOutputer(object):
     def __init__(self):
@@ -13,7 +14,8 @@ class HtmlOutputer(object):
         self.datas.append(new_data)
 
     def output_html(self):
-        str = '2_putput.html'
+
+        str = time.strftime('%Y%m%d%H%M%S') + '.html'
         fout = open(str, 'w', encoding="utf-8")
         fout.write("<html>")
         fout.write("<head><meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\"></head>")
