@@ -25,7 +25,7 @@ class HtmlOutputer(object):
             fout.write("<tr>")
             fout.write("<td>%s</td>" % data['url'])
             fout.write("<td>%s</td>" % data['title'])
-            fout.write("<td>%s</td>" % data['summary'])
+            fout.write("<td><img src='%s' /></td>" % data['summary'])
             fout.write("</tr>")
         fout.write("</table>")
         fout.write("</body>")
