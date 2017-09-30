@@ -10,6 +10,8 @@ class HtmlDownloader(object):
         if new_url is None:
             return None
         response = requests.get(new_url)
+        #解决乱码
+        response.encoding = 'utf-8'
         if response.status_code != 200:
             return None
         return response.text
