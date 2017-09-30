@@ -22,7 +22,7 @@ class HtmlParser(object):
         new_urls = set()
         #links = soup.find_all('a', href=re.compile(r"/item/\S"))
         #links = soup.find_all('a', href=re.compile(r"/item/\."))
-        links = soup.find_all('a',href=re.compile(r'/ent/*?'))  #获得新网页内所有RUL
+        links = soup.find_all('a',href=re.compile(r'/ent/*.?'))  #获得新网页内所有RUL
         for link in links:
             new_link = link['href']
             new_full_link = urllib.parse.urljoin(new_url, new_link)
@@ -30,11 +30,11 @@ class HtmlParser(object):
         return new_urls
 
     def _get_new_data(self, new_url, soup):
-        res_data = {}
-        res_data['url'] = new_url
-        title_node = soup.find('div', class_="Mid2L_con").find("p")
-        res_data['title'] = title_node.get_text()
-        res_data['summary'] = title_node.get_text()
-
+        res_data = []
+        title_node = soup.find_all("p")
+        for ii in title_node:
+            temp = ii
+            #sssoup = BeautifulSoup(temp, 'html.parser')
+            res_data.append({'title':ii.get_text(),'summary':ii.get_text(),'url':new_url})
         return res_data
 
