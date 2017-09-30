@@ -33,8 +33,9 @@ class HtmlParser(object):
         res_data = []
         title_node = soup.find('div', class_='Mid2L_con').find_all("p")
         for ii in title_node:
-            temp = ii
-            #sssoup = BeautifulSoup(temp, 'html.parser')
-            res_data.append({'title':ii.get_text(),'summary':ii.get_text(),'url':new_url})
+            t = ii.img
+            if t == None:
+                continue
+            res_data.append({'title':ii.get_text(),'summary':ii.get_text(),'url':new_url, 'img':t})
         return res_data
 
