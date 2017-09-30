@@ -31,7 +31,7 @@ class HtmlParser(object):
 
     def _get_new_data(self, new_url, soup):
         res_data = []
-        title_node = soup.find_all("p")
+        title_node = soup.find('div', class_='Mid2L_con').find_all("p")
         for ii in title_node:
             temp = ii
             #sssoup = BeautifulSoup(temp, 'html.parser')
