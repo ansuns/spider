@@ -36,12 +36,11 @@ class HtmlOutputer(object):
 
 
     #传入图片地址，文件名，保存单张图片
-    def saveImg(self,imageURL, fileName):
-        #self.mkdir(time.strftime('%Y%m%d%H'))
+    def saveImg(self,imageURL, fileName, number):
+
         soup = BeautifulSoup(str(imageURL), 'html.parser')
         img = soup.find('img')['src']
 
-        number = 0
         splitPath = img.split('.')
 
         fTail = splitPath.pop()
@@ -52,7 +51,7 @@ class HtmlOutputer(object):
         fileName = re.sub(r1, '', fileName) #过滤内容中的各种标点符号
         if fileName is None:
             fileName = range(0, 100)
-        fileName = time.strftime('%Y%m%d%H') + '/' + fileName + '.' + fTail
+        fileName = time.strftime('%Y%m%d%H') + '/' + fileName + + '_' +str(number) + '.' + fTail
         u = urllib.request.urlopen(img)
         data = u.read()
         f = open(fileName, 'wb')
@@ -62,7 +61,8 @@ class HtmlOutputer(object):
 
 
     def output_html(self):
-
+        self.mkdir(time.strftime('%Y%m%d%H'))
+        number = 0
         str = time.strftime('%Y%m%d%H%M%S') + '.html'
         fout = open(str, 'w', encoding="utf-8")
         fout.write("<html>")
@@ -71,12 +71,13 @@ class HtmlOutputer(object):
         fout.write("<table>")
         for dataddddd in self.datas:
             for data in dataddddd:
-                self.saveImg(data['img'], data['title'])
+                self.saveImg(data['img'], data['title'], number)
                 fout.write("<tr>")
                 fout.write("<td>%s</td>" % data['url'])
                 fout.write("<td><a href='%s'>%s</a></td>" % (data['url'], data['title']))
                 fout.write("<td>%s</td>" % data['img'])
                 fout.write("</tr>")
+                number += 1
         fout.write("</table>")
         fout.write("</body>")
         fout.write("</html>")
