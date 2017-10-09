@@ -25,7 +25,7 @@ class HtmlOutputer(object):
         # 判断结果
         if not isExists:
             # 如果不存在则创建目录
-            print (u"偷偷新建了名字叫做",path,u'的文件夹')
+            print (u"新建",path,u'文件夹')
             # 创建目录操作函数
             os.makedirs(path)
             return True
@@ -51,12 +51,12 @@ class HtmlOutputer(object):
         fileName = re.sub(r1, '', fileName) #过滤内容中的各种标点符号
         if fileName is None:
             fileName = range(0, 100)
-        fileName = time.strftime('%Y%m%d%H') + '/' + fileName + + '_' +str(number) + '.' + fTail
+        fileName = time.strftime('%Y%m%d%H') + '/'  + str(number)   + '_' + fileName  + '.' + fTail
         u = urllib.request.urlopen(img)
         data = u.read()
         f = open(fileName, 'wb')
         f.write(data)
-        print(u"正在悄悄保存她的一张图片为", fileName)
+        print(u"保存一张图片为:", fileName)
         f.close()
 
 
