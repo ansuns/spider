@@ -16,7 +16,7 @@ class Spider(object):
         self.outputer = html_outputer.HtmlOutputer()
 
     def craw(self, root_url):
-        count = 1
+        count = 0
         self.urls.add_new_url(root_url)
         self.mkdir(time.strftime('%Y%m%d%H'))
         while self.urls.has_new_url():
@@ -24,13 +24,16 @@ class Spider(object):
                 new_url = self.urls.get_new_url()
                 print('craw %d : %s' %(count, new_url))
                 html_cont = self.downloader.download(new_url)
-                new_urls, new_data = self.parser.parser(new_url, html_cont)
-                self.urls.add_new_urls(new_urls)    #新的URL加入管理器
-                self.outputer.collect_data(new_data)
+                new_urls, new_data, n = self.parser.parser(new_url, html_cont)
 
-                if count == 10 :
+                if n > 1:
+                    self.urls.add_new_urls(new_urls)    #新的URL加入管理器
+                    self.outputer.collect_data(new_data)
+
+                if count >= 520 :
                     break
-                count = count + 1
+                count = count + n
+                print('当前数量 %d :' % count)
             except:
                 print('craw failed')
 

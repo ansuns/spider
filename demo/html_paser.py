@@ -14,9 +14,9 @@ class HtmlParser(object):
         #soup = BeautifulSoup(html_cont, 'html.parser', from_encoding='utf-8')
         soup = BeautifulSoup(html_cont, 'html.parser')
         new_urls = self._get_new_urls(new_url, soup)
-        new_data = self._get_new_data(new_url, soup)
+        new_data, n = self._get_new_data(new_url, soup)
 
-        return new_urls, new_data
+        return new_urls, new_data, n
 
     def _get_new_urls(self, new_url, soup):
         new_urls = set()
@@ -46,15 +46,19 @@ class HtmlParser(object):
         u = urllib.request.urlopen(imageURL)
         data = u.read()
         f = open(fileName, 'wb')
-        f.write(data)
-        print(u"保存一张图片为:", fileName)
+        num = 0
+        if f.write(data) :
+            num = 1
+            print(u"保存一张图片为:", fileName)
+
         f.close()
+        return num
 
 
     def _get_new_data(self, new_url, soup):
         res_data = []
         title_node = soup.find('div', class_='Mid2L_con').find_all("p")
-        number = 1
+        number = 0
         for ii in title_node:
             t = ii.img
             if t == None:
@@ -62,8 +66,8 @@ class HtmlParser(object):
 
             soupX = BeautifulSoup(str(ii.img), 'html.parser')
             t = soupX.find('img')['src']
-            self.saveImg(t,ii.get_text(), number)
-            number += 1
+            n = self.saveImg(t,ii.get_text(), number)
+            number = number + n
             res_data.append({'title':ii.get_text(),'summary':ii.get_text(),'url':new_url, 'img':t})
-        return res_data
+        return res_data, number
 
